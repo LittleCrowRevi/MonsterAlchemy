@@ -14,7 +14,7 @@ public class TraitBodyPneuma : TraitResourceMain
             return;
         }
         base.WriteNote(n, identified);
-        n.AddText("altEnc".lang("Body Pneuma", "Body Pneuma", "Enhances the body"));
+        n.AddText("altEnc".lang("Body Pneuma", "Body Pneuma", "Enhances the body."));
     }
 }
 
