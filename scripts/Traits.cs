@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Cwl.Helper.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 
 namespace MonsterAlchemy.scripts;
@@ -12,11 +15,11 @@ public class TraitPneuma : TraitResourceMain
         base.WriteNote(n, identified);
 
         // get the source lang text
-        var s = EClass.sources.elements.GetRow("117001");
+        var s = EClass.sources.elements.GetRow(ModIds.pneumaTrait);
         var textArray = s.textAlt;
 
-        var pneumaTrait = owner.elements.GetElement(117001);
-        string altText = "altEnc".lang(textArray[0].IsEmpty(pneumaTrait.Name), textArray[pneumaTrait.vBase - 1].TagColor(FontColor.FoodQuality), "<size=12>Pneuma Quality</size>".TagColor(FontColor.Passive));
+        var pneumaTrait = owner.elements.GetOrCreateElement(ModIds.pneumaTrait.ToInt());
+        string altText = "altEnc".lang(textArray[0].IsEmpty(pneumaTrait.Name), textArray[pneumaTrait.vBase > 0 ? pneumaTrait.vBase - 1 : 1].TagColor(FontColor.FoodQuality), "<size=12>Pneuma Quality</size>".TagColor(FontColor.Passive));
         
         // add text and icon to the note
         var uiItem = n.AddText("NoteText_enc", altText);
@@ -25,15 +28,42 @@ public class TraitPneuma : TraitResourceMain
     } 
 }
 
-public class TraitBodyPotion : TraitPotion
+public class TraitPneumaPotion : TraitPotion
 {
+    // Id of the attribute to increase
+    public override void OnCrafted(Recipe recipe, List<Thing> ings)
+    {
+        base.OnCrafted(recipe, ings);
+
+        // Each recipes contains the id of the attribute to increase in the "unkown" column
+        var attb = EClass.sources.things.GetRow(recipe.GetIdThing()).unknown.ToInt();
+        owner.SetFlagValue("attbId", attb);
+
+        Plugin.LogInfo(attb);
+    }
+
     public override void OnDrink(Chara c)
     {
-        if (c.elements.GetElement(70) is not AttbMain str) return;
+        var attb = c.elements.GetElement(owner.GetFlagValue("attbId"));
+        if (attb is not AttbMain)
+        {
+            Plugin.LogError("[PneumaPotionDrink] Id of element does not match an attribute: " + attb);
+            return;
+        }
 
-        var prev_exp = str.vExp;
-        c.elements.ModExp(70, 300 * MAConfig.configExpGain.Value);
-        Plugin.LogInfo($"Used Body Potion to increase exp from {prev_exp} to {str.vExp}");
+        var prev_exp = attb.vExp;
+        c.elements.ModExp(attb.id, 300 * MAConfig.configExpGain.Value);
+        Plugin.LogInfo($"Used Pneuma Potion to increase exp for {attb.Name} from {prev_exp} to {attb.vExp}");
 
     }
+}
+
+public static class ModIds
+{
+    public const string strPotion = "strPneumaPotion";
+    public const string endPotion = "endPneumaPotion";
+
+    public const string pneumaTrait = "117001";
+
+    public const int str = 70, end = 71, dex = 72, per = 73, ler = 74, wil = 75, mag = 76, cha = 77;
 }

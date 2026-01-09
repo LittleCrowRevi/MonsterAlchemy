@@ -26,8 +26,20 @@ internal class MAConfig
 
     public static void InitModOptions(Plugin plugin)
     {
-        // Mod Options is loaded, you can do
-        // registeration now.
+        // check if mod options is loaded
+        var modLoaded = false;
+        foreach (var obj in ModManager.ListPluginObject)
+        {
+            var mod = obj as BaseUnityPlugin;
+            if (mod.Info.Metadata.GUID == "evilmask.elinplugins.modoptions")
+            {
+                modLoaded = true;
+                break;
+            }
+        }
+
+        if (!modLoaded) return;
+
         var controller = ModOptionController.Register(ModInfo.Guid);
         using (StreamReader sr = new(Path.GetDirectoryName(plugin.Info.Location) + "/config/" + "ConfigExample.en.xml"))
             controller.SetPreBuildWithXml(sr.ReadToEnd());

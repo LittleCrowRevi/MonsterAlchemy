@@ -24,15 +24,17 @@ internal class CommonHooks
 
         // sets encLv(enchantment level) so that different qualities don't get merged on pickup
         // no clue why it doesn't differentiate from them having different data but eh
-        var testThing = ThingGen.Create("pneuma");
-        testThing.SetEncLv(qualityLevel - 1);
-        var quality = Element.Create(117001, qualityLevel);
-        testThing.elements.dict.Add(117001, quality);
+        var pneuma = ThingGen.Create("pneuma");
+        pneuma.SetEncLv(qualityLevel - 1);
+        pneuma.SetNum(5);
+
+        var quality = Element.Create(ModIds.pneumaTrait, qualityLevel);
+        pneuma.elements.dict.Add(ModIds.pneumaTrait.ToInt(), quality);
         
         // spawn at location of the defeated monster
-        EClass._zone.AddCard(testThing, nearestPoint);
+        EClass._zone.AddCard(pneuma, nearestPoint);
 
-        Plugin.LogInfo("Spawned: " + testThing.Name + ", at: " + testThing.pos + ", with: " + string.Join(",", testThing.elements.dict.Select(kv => $"{kv.Key}={kv.Value.vBase}")));
+        Plugin.LogInfo("Spawned: " + pneuma.Name + ", at: " + pneuma.pos + ", with: " + string.Join(",", pneuma.elements.dict.Select(kv => $"{kv.Key}={kv.Value.vBase}")));
     }
 
     /*[HarmonyPostfix, HarmonyPatch(typeof(Thing), "WriteNote")]

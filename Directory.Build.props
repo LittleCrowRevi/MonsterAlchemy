@@ -39,6 +39,10 @@
             <HintPath>$(ElinGamePath)\Package\Mod_ModOptions\ModOptions.dll</HintPath>
         <Private>False</Private>
         </Reference>
+		<Reference Include="CustomWhateverLoader">
+			<HintPath>$(ElinGamePath)\Package\Mod_cwl\CustomWhateverLoader.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
         <Reference Include="$(ElinGamePath)\BepInEx\core\0Harmony.dll">
             <Private>False</Private>
         </Reference>
