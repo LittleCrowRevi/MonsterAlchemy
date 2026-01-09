@@ -6,15 +6,44 @@ using System.Text;
 
 namespace MonsterAlchemy.scripts;
 
+[HarmonyPatch]
 internal class CommonHooks
 {
     [HarmonyPrefix, HarmonyPatch(typeof(Card), "SpawnLoot")]
     public static void SpawnLoot(Card __instance, Card origin)
     {
         Point nearestPoint = __instance.pos;
-        var testThing = ThingGen.Create("body_pneuma");
+        var qualityLevel = __instance.LV switch
+        {
+            < 50 => 1, // common
+            < 100 => 2, // uncommon
+            < 500 => 3, // rare
+            < 1000 => 4,
+            _ => 0
+        };
+
+        // sets encLv(enchantment level) so that different qualities don't get merged on pickup
+        // no clue why it doesn't differentiate from them having different data but eh
+        var testThing = ThingGen.Create("pneuma");
+        testThing.SetEncLv(qualityLevel - 1);
+        var quality = Element.Create(117001, qualityLevel);
+        testThing.elements.dict.Add(117001, quality);
+        
+        // spawn at location of the defeated monster
         EClass._zone.AddCard(testThing, nearestPoint);
 
-        Plugin.LogInfo("Spawned: " + testThing.Name + ", at: " + testThing.pos + ", with: " + string.Join(",", testThing.elements.dict.Select(kv => $"{kv.Key}={kv.Value}")));
+        Plugin.LogInfo("Spawned: " + testThing.Name + ", at: " + testThing.pos + ", with: " + string.Join(",", testThing.elements.dict.Select(kv => $"{kv.Key}={kv.Value.vBase}")));
     }
+
+    /*[HarmonyPostfix, HarmonyPatch(typeof(Thing), "WriteNote")]
+    public static void WriteNote(Thing __instance, UINote n, IInspect.NoteMode mode, Recipe recipe)
+    {
+        if (__instance.id != "pneuma") return;
+        __instance.elements.AddNote(n, (Element e) => true, null, ElementContainer.NoteMode.BonusTrait, addRaceFeat: false, delegate (Element e, string s)
+        {
+            var textArray = e.source.GetTextArray("textAlt");
+            string altText = "altEnc".lang(textArray[0].IsEmpty(e.Name), textArray[e.vBase - 1], "<size=12>Pneuma Quality</size>".TagColor(FontColor.Passive));
+            return altText;
+        });
+    }*/
 }

@@ -3,7 +3,7 @@
     <hlayout>
         <vlayout border="true">
             <text>Experience Gain</text>
-            <slider id="expSlider" step="10" max="1000" buttons="true">Experience Gain</slider>
+            <slider id="expSlider" step="10" max="1000">Experience Gain</slider>
             <t_group min_count="1" max_count="1" value="1">
                 <title>MySelectionGroup</title>
                 <choice>

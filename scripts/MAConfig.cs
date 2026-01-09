@@ -12,14 +12,14 @@ namespace MonsterAlchemy.scripts;
 
 internal class MAConfig
 {
-    internal static ConfigEntry<int> configExpGain;
+    internal static ConfigEntry<float> configExpGain;
 
     public static void InitConfig(ConfigFile config)
     {
         configExpGain = config.Bind(
             "General",
             "expGain",
-            300,
+            1f,
             "Change the experience gained from drinking a pneuma potion."
         );
     }
@@ -43,11 +43,12 @@ internal class MAConfig
         {
             var slider = builder.GetPreBuild<OptSlider>("expSlider");
             slider.Title = configExpGain.Value.ToString();
-            slider.Step = 10f;
-            slider.Max = 1000f;
+            slider.Step = 0.5f;
+            slider.Max = 10f;
             slider.Value = configExpGain.Value;
             slider.OnValueChanged += v =>
             {
+                slider.Value = MathF.Round(v, 1);
                 slider.Title = slider.Value.ToString();
                 configExpGain.Value = (int)v;
             };
