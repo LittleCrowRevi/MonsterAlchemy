@@ -29,7 +29,7 @@ internal class CommonHooks
         pneuma.SetNum(5);
 
         var quality = Element.Create(ModIds.pneumaTrait, qualityLevel);
-        pneuma.elements.dict.Add(ModIds.pneumaTrait.ToInt(), quality);
+        pneuma.elements.dict.Add(ModIds.pneumaTrait, quality);
         
         // spawn at location of the defeated monster
         EClass._zone.AddCard(pneuma, nearestPoint);
