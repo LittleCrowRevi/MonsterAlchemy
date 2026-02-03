@@ -10,17 +10,24 @@ using System.Text;
 #nullable disable
 namespace MonsterAlchemy.scripts;
 
-internal class MAConfig
+internal class MaConfig
 {
-    internal static ConfigEntry<float> configExpGain;
+    internal static ConfigEntry<float> ConfigExpGain;
+    internal static ConfigEntry<float> ConfigQualityMod;
 
     public static void InitConfig(ConfigFile config)
     {
-        configExpGain = config.Bind(
+        ConfigExpGain = config.Bind(
             "General",
             "expGain",
             1f,
             "Change the experience gained from drinking a pneuma potion."
+        );
+        ConfigQualityMod = config.Bind(
+            "General",
+            "qualityMod",
+            1f,
+            "Changes the modifier pneuma quality applies to the gained exp from potions."
         );
     }
 
@@ -54,15 +61,29 @@ internal class MAConfig
         controller.OnBuildUI += builder =>
         {
             var slider = builder.GetPreBuild<OptSlider>("expSlider");
-            slider.Title = configExpGain.Value.ToString();
+            slider.Title = ConfigExpGain.Value.ToString();
             slider.Step = 0.5f;
             slider.Max = 10f;
-            slider.Value = configExpGain.Value;
+            slider.Value = ConfigExpGain.Value;
             slider.OnValueChanged += v =>
             {
                 slider.Value = MathF.Round(v, 1);
                 slider.Title = slider.Value.ToString();
-                configExpGain.Value = (int)v;
+                ConfigExpGain.Value = (int)v;
+            };
+        };
+        controller.OnBuildUI += builder =>
+        {
+            var slider = builder.GetPreBuild<OptSlider>("qualityMod");
+            slider.Title = ConfigQualityMod.Value.ToString();
+            slider.Step = 1f;
+            slider.Max = 100f;
+            slider.Value = ConfigQualityMod.Value;
+            slider.OnValueChanged += v =>
+            {
+                slider.Value = MathF.Floor(v);
+                slider.Title = slider.Value.ToString();
+                ConfigQualityMod.Value = (int)v;
             };
         };
     }

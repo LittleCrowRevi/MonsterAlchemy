@@ -3,22 +3,9 @@
     <hlayout>
         <vlayout border="true">
             <text>Experience Gain</text>
-            <slider id="expSlider" step="10" max="1000">Experience Gain</slider>
-            <t_group min_count="1" max_count="1" value="1">
-                <title>MySelectionGroup</title>
-                <choice>
-                    <contentId>item01</contentId>
-                </choice>
-                <choice>
-                    <contentId>item02</contentId>
-                </choice>
-                <choice>
-                    <contentId>item03</contentId>
-                </choice>
-                <choice>
-                    <contentId>item04</contentId>
-                </choice>
-            </t_group>
+            <slider id="expSlider" step="10" max="1000"></slider>
+			<text>Quality Modifier</text>
+			<slider id="qualityMod" step="10" max="1000"></slider>
             <button id = "btn01">
                 <contentId>button.name</contentId>
                 <tooltip>button.tooltip</tooltip>

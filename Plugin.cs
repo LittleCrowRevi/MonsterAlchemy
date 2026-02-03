@@ -37,8 +37,8 @@ internal class Plugin : BaseUnityPlugin
         ModUtil.ImportExcel(sourceGame, "Element", sources.elements);
 
         // config/modoptions init
-        MAConfig.InitConfig(Config);
-        MAConfig.InitModOptions(Instance);
+        MaConfig.InitConfig(Config);
+        MaConfig.InitModOptions(Instance);
     }
 
     internal static void LogDebug(object message, [CallerMemberName] string caller = "")

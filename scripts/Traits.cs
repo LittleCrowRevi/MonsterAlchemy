@@ -20,7 +20,7 @@ public class TraitPneuma : TraitResourceMain
         var textArray = s.textAlt;
 
         var pneumaTrait = owner.elements.GetOrCreateElement(ModIds.pneumaTrait);
-        string altText = "altEnc".lang(textArray[0].IsEmpty(pneumaTrait.Name), textArray[pneumaTrait.vBase > 0 ? pneumaTrait.vBase - 1 : 1].TagColor(FontColor.FoodQuality), "<size=12>Pneuma Quality</size>".TagColor(FontColor.Passive));
+        var altText = "altEnc".lang(textArray[0].IsEmpty(pneumaTrait.Name), textArray[pneumaTrait.vBase > 0 ? pneumaTrait.vBase - 1 : 1].TagColor(FontColor.FoodQuality), "<size=12>Pneuma Quality</size>".TagColor(FontColor.Passive));
         
         // add text and icon to the note
         var uiItem = n.AddText("NoteText_enc", altText);
@@ -36,7 +36,7 @@ public class TraitPneumaPotion : TraitPotion
     {
         base.OnCrafted(recipe, ings);
 
-        // Each recipes contains the id of the attribute to increase in the "unkown" column
+        // Each recipe contains the id of the attribute to increase in the "unknown" column
         var attb = EClass.sources.things.GetRow(recipe.GetIdThing()).unknown.ToInt();
         owner.SetFlagValue("attbId", attb);
 
@@ -59,9 +59,9 @@ public class TraitPneumaPotion : TraitPotion
             return;
         }
 
-        var prev_exp = attb.vExp;
-        c.elements.ModExp(attb.id, (30 * MAConfig.configExpGain.Value) * (owner.elements.GetElement(ModIds.pneumaTrait).Value * 10));
-        Plugin.LogInfo($"Used Pneuma Potion to increase exp for {attb.Name} from {prev_exp} to {attb.vExp}");
+        var prevExp = attb.vExp;
+        c.elements.ModExp(attb.id, (30 * MaConfig.ConfigExpGain.Value) * (owner.elements.GetElement(ModIds.pneumaTrait).Value * MaConfig.ConfigQualityMod.Value));
+        Plugin.LogInfo($"Used Pneuma Potion to increase exp for {attb.Name} from {prevExp} to {attb.vExp}");
 
     }
 
@@ -69,6 +69,7 @@ public class TraitPneumaPotion : TraitPotion
     {
         base.WriteNote(n, identified);
 
+        // get the source lang text
         var s = EClass.sources.elements.GetRow(ModIds.pneumaTrait.ToString());
         var textArray = s.textAlt;
 

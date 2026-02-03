@@ -12,7 +12,7 @@ internal class CommonHooks
     [HarmonyPrefix, HarmonyPatch(typeof(Card), "SpawnLoot")]
     public static void SpawnLoot(Card __instance, Card origin)
     {
-        Point nearestPoint = __instance.pos;
+        var nearestPoint = __instance.pos;
         var qualityLevel = __instance.LV switch
         {
             < 50 => 1, // common
