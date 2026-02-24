@@ -4,6 +4,7 @@ using EvilMask.Elin.ModOptions;
 using EvilMask.Elin.ModOptions.UI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -61,28 +62,28 @@ internal class MaConfig
         controller.OnBuildUI += builder =>
         {
             var slider = builder.GetPreBuild<OptSlider>("expSlider");
-            slider.Title = ConfigExpGain.Value.ToString();
+            slider.Title = ConfigExpGain.Value.ToString(CultureInfo.CurrentCulture);
             slider.Step = 0.5f;
             slider.Max = 10f;
             slider.Value = ConfigExpGain.Value;
             slider.OnValueChanged += v =>
             {
-                slider.Value = MathF.Round(v, 1);
-                slider.Title = slider.Value.ToString();
-                ConfigExpGain.Value = (int)v;
+                slider.Value = MathF.Round(v, 2);
+                slider.Title = slider.Value.ToString(CultureInfo.InvariantCulture);
+                ConfigExpGain.Value = v;
             };
         };
         controller.OnBuildUI += builder =>
         {
             var slider = builder.GetPreBuild<OptSlider>("qualityMod");
-            slider.Title = ConfigQualityMod.Value.ToString();
+            slider.Title = ConfigQualityMod.Value.ToString(CultureInfo.InvariantCulture);
             slider.Step = 1f;
             slider.Max = 100f;
             slider.Value = ConfigQualityMod.Value;
             slider.OnValueChanged += v =>
             {
                 slider.Value = MathF.Floor(v);
-                slider.Title = slider.Value.ToString();
+                slider.Title = slider.Value.ToString(CultureInfo.InvariantCulture);
                 ConfigQualityMod.Value = (int)v;
             };
         };

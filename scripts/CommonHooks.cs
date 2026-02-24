@@ -12,6 +12,10 @@ internal class CommonHooks
     [HarmonyPrefix, HarmonyPatch(typeof(Card), "SpawnLoot")]
     public static void SpawnLoot(Card __instance, Card origin)
     {
+        if (!Game.Instance.activeZone.IsNefia)
+        {
+            return;
+        }
         var nearestPoint = __instance.pos;
         var qualityLevel = __instance.LV switch
         {
@@ -26,7 +30,7 @@ internal class CommonHooks
         // no clue why it doesn't differentiate from them having different data but eh
         var pneuma = ThingGen.Create("pneuma");
         pneuma.SetEncLv(qualityLevel - 1);
-        pneuma.SetNum(5);
+        pneuma.SetNum(1);
 
         var quality = Element.Create(ModIds.pneumaTrait, qualityLevel);
         pneuma.elements.dict.Add(ModIds.pneumaTrait, quality);
