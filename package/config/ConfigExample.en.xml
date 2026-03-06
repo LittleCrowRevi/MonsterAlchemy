@@ -6,56 +6,6 @@
             <slider id="expSlider" step="10" max="1000"></slider>
 			<text>Quality Modifier</text>
 			<slider id="qualityMod" step="10" max="1000"></slider>
-            <button id = "btn01">
-                <contentId>button.name</contentId>
-                <tooltip>button.tooltip</tooltip>
-            </button>
-        </vlayout>
-        <vlayout border="true">
-            <one_choice type="lr_select" value="1">
-                <choice>
-                    <contentId>buttonLR.item01</contentId>
-                    <tooltip>tootipId01</tooltip>
-                </choice>
-                <choice>
-                    <contentId>buttonLR.item02</contentId>
-                </choice>
-                <choice>
-                    <contentId>buttonLR.item03</contentId>
-                </choice>
-            </one_choice>
-            <one_choice type="dropdown" value="1">
-                <choice>
-                    <contentId>dropdown.item01</contentId>
-                    <tooltip>dropdown.tootip01</tooltip>
-                </choice>
-                <choice>
-                    <contentId>dropdown.item02</contentId>
-                </choice>
-                <choice>
-                    <contentId>dropdown.item03</contentId>
-                </choice>
-            </one_choice>
-            <t_group id = "group02" min_count="0" max_count="2" value="1,2">
-                <title>MySelectionGroup2</title>
-                <choice>
-                    <contentId>item01</contentId>
-                </choice>
-                <choice>
-                    <contentId>item02</contentId>
-                </choice>
-                <choice>
-                    <contentId>item03</contentId>
-                </choice>
-                <choice>
-                    <contentId>item04</contentId>
-                </choice>
-            </t_group>
         </vlayout>
     </hlayout>
-    <text>exampleText</text>
-    <slider id = "slider02" min="0" max="100" value="30" buttons="true">MySlider</slider>
-    <input>
-        <placeholderID>input.placeholder</placeholderID>
-    </input>
 </config>

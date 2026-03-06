@@ -22,7 +22,8 @@ internal class CommonHooks
             < 50 => 1, // common
             < 100 => 2, // uncommon
             < 500 => 3, // rare
-            < 1000 => 4,
+            < 1000 => 4, // Epic
+            > 1000 => 5, // Legendary
             _ => 0
         };
 

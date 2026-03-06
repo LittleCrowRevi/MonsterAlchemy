@@ -66,7 +66,7 @@ public class TraitPneumaPotion : TraitPotion
         var prevExp = attb.vExp;
         c.elements.ModExp(
             attb.id, 
-            30 * MaConfig.ConfigExpGain.Value * (owner.elements.GetElement(ModIds.pneumaTrait).vBase * MaConfig.ConfigQualityMod.Value)
+            MaConfig.ConfigExpGain.Value * (owner.elements.GetElement(ModIds.pneumaTrait).vBase * MaConfig.ConfigQualityMod.Value)
             );
         Plugin.LogInfo($"Used Pneuma Potion to increase exp for {attb.Name} from {prevExp} to {attb.vExp}");
 
@@ -88,7 +88,7 @@ public class TraitPneumaPotion : TraitPotion
             "<size=12>Pneuma Quality</size>".TagColor(FontColor.Passive)
             );
 
-        // add text and icon to the note
+        // add text and icon to the note    
         var uiItem = n.AddText("NoteText_enc", altText);
         uiItem.image1.SetActive(true);
         uiItem.image1.sprite = EClass.core.refs.icons.enc.rune;

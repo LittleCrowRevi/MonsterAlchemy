@@ -21,13 +21,13 @@ internal class MaConfig
         ConfigExpGain = config.Bind(
             "General",
             "expGain",
-            1f,
+            300f,
             "Change the experience gained from drinking a pneuma potion."
         );
         ConfigQualityMod = config.Bind(
             "General",
             "qualityMod",
-            1f,
+            10f,
             "Changes the modifier pneuma quality applies to the gained exp from potions."
         );
     }
@@ -63,12 +63,12 @@ internal class MaConfig
         {
             var slider = builder.GetPreBuild<OptSlider>("expSlider");
             slider.Title = ConfigExpGain.Value.ToString(CultureInfo.CurrentCulture);
-            slider.Step = 0.5f;
-            slider.Max = 10f;
+            slider.Step = 1f;
+            slider.Max = 1000f;
             slider.Value = ConfigExpGain.Value;
             slider.OnValueChanged += v =>
             {
-                slider.Value = MathF.Round(v, 2);
+                slider.Value = MathF.Floor(v);
                 slider.Title = slider.Value.ToString(CultureInfo.InvariantCulture);
                 ConfigExpGain.Value = v;
             };
